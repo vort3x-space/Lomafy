@@ -58,8 +58,7 @@ export async function registerRoutes(
       const hashedPassword = await bcrypt.hash(input.password, 10);
       const user = await storage.createUser({
         ...input,
-        password: hashedPassword,
-        role: "USER"
+        password: hashedPassword
       });
       
       const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: '24h' });

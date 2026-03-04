@@ -62,9 +62,18 @@ export default function Auth() {
           brandName: formData.role === 'PRODUCER' ? formData.brandName : undefined
         },
         {
-          onSuccess: () => {
-            toast({ title: t('auth.register_success') || "Account created successfully!" });
-            setLocation('/');
+          onSuccess: (user) => {
+            if (user.role === 'PRODUCER' && !user.isApproved) {
+              toast({ 
+                title: t('auth.pending_approval_title') || "Registration Received", 
+                description: t('auth.pending_approval_desc') || "Your producer account is pending admin approval. You will be able to log in once approved.",
+                variant: "default"
+              });
+              setIsLogin(true); // Switch to login tab
+            } else {
+              toast({ title: t('auth.register_success') || "Account created successfully!" });
+              setLocation('/');
+            }
           },
           onError: (err) => {
             toast({ title: t('auth.register_failed') || "Registration failed", description: err.message, variant: "destructive" });

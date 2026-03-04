@@ -1,6 +1,7 @@
 import { useParams } from "wouter";
 import { useProduct } from "@/hooks/use-products";
 import { useCart } from "@/store/cart";
+import { useLanguage } from "@/store/language";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
