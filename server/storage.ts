@@ -60,7 +60,8 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getApprovedProducers(): Promise<User[]> {
-    return await db.select().from(users).where(eq(users.role, 'PRODUCER')).where(eq(users.isApproved, true));
+    return await db.select().from(users)
+      .where(and(eq(users.role, 'PRODUCER'), eq(users.isApproved, true)));
   }
 
   async updateUserStatus(id: number, isApproved: boolean): Promise<User | undefined> {
