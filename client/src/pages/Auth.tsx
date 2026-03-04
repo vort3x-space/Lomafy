@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { useLogin, useRegister, useUser } from "@/hooks/use-auth";
 import { useLanguage } from "@/store/language";
@@ -26,8 +26,13 @@ export default function Auth() {
     brandName: ''
   });
 
+  useEffect(() => {
+    if (user) {
+      setLocation("/");
+    }
+  }, [user, setLocation]);
+
   if (user) {
-    setLocation("/");
     return null;
   }
 

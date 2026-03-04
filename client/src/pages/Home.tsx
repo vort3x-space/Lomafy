@@ -6,6 +6,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import { useLanguage } from "@/store/language";
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<string | undefined>();
