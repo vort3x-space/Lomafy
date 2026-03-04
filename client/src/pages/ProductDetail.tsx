@@ -73,7 +73,7 @@ export default function ProductDetail() {
               {product.name}
             </h1>
             <p className="text-2xl font-medium text-primary mb-8">
-              ₺{Number(product.price).toFixed(2)}
+              ₺{Number(product.price).toLocaleString('tr-TR', { minimumFractionDigits: 2 })}
             </p>
             
             <div className="prose text-muted-foreground mb-10">

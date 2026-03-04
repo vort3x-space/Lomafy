@@ -10,6 +10,7 @@ export const users = pgTable("users", {
   name: text("name").notNull(),
   role: text("role").notNull().default('USER'), // 'ADMIN', 'USER', 'PRODUCER'
   brandName: text("brand_name"),
+  isApproved: boolean("is_approved").default(true), // Users are approved by default, producers need approval
   createdAt: timestamp("created_at").defaultNow(),
 });
 

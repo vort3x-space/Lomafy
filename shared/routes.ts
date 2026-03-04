@@ -134,6 +134,26 @@ export const api = {
       }
     }
   },
+  admin: {
+    users: {
+      list: {
+        method: 'GET' as const,
+        path: '/api/admin/users' as const,
+        responses: {
+          200: z.array(z.custom<typeof users.$inferSelect>()),
+          401: errorSchemas.unauthorized,
+        }
+      },
+      approve: {
+        method: 'PATCH' as const,
+        path: '/api/admin/users/:id/approve' as const,
+        responses: {
+          200: z.custom<typeof users.$inferSelect>(),
+          401: errorSchemas.unauthorized,
+        }
+      }
+    }
+  },
   dashboard: {
     stats: {
       method: 'GET' as const,

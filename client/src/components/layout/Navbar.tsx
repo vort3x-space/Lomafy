@@ -35,10 +35,10 @@ export function Navbar() {
             <Link href="/" className={`text-sm font-medium transition-colors hover:text-primary ${location === '/' ? 'text-primary' : 'text-muted-foreground'}`}>
               {t('nav.shop')}
             </Link>
-            <Link href="/" className="text-sm font-medium transition-colors text-muted-foreground hover:text-primary">
+            <Link href="/producers" className={`text-sm font-medium transition-colors hover:text-primary ${location === '/producers' ? 'text-primary' : 'text-muted-foreground'}`}>
               {t('nav.producers')}
             </Link>
-            <Link href="/" className="text-sm font-medium transition-colors text-muted-foreground hover:text-primary">
+            <Link href="/our-story" className={`text-sm font-medium transition-colors hover:text-primary ${location === '/our-story' ? 'text-primary' : 'text-muted-foreground'}`}>
               {t('nav.our_story')}
             </Link>
           </div>

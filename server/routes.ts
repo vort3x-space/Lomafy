@@ -85,6 +85,10 @@ export async function registerRoutes(
       if (!validPassword) {
         return res.status(401).json({ message: "Invalid email or password" });
       }
+
+      if (!user.isApproved) {
+        return res.status(401).json({ message: "Hesabınız henüz onaylanmadı. Lütfen bekleyin." });
+      }
       
       const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: '24h' });
       res.status(200).json({ user, token });
@@ -259,6 +263,18 @@ export async function registerRoutes(
   app.get(api.dashboard.stats.path, authenticateToken, requireAdmin, async (req, res) => {
     const stats = await storage.getDashboardStats();
     res.json(stats);
+  });
+
+  // Admin Users
+  app.get('/api/admin/users', authenticateToken, requireAdmin, async (req, res) => {
+    const users = await storage.getUsers();
+    res.json(users);
+  });
+
+  app.patch('/api/admin/users/:id/approve', authenticateToken, requireAdmin, async (req, res) => {
+    const user = await storage.updateUserStatus(Number(req.params.id), true);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json(user);
   });
   
   await seedDatabase();

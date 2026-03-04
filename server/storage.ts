@@ -12,6 +12,8 @@ export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  getUsers(): Promise<User[]>;
+  updateUserStatus(id: number, isApproved: boolean): Promise<User | undefined>;
   
   // Categories
   getCategories(): Promise<Category[]>;
@@ -47,7 +49,17 @@ export class DatabaseStorage implements IStorage {
   }
   
   async createUser(insertUser: InsertUser): Promise<User> {
-    const [user] = await db.insert(users).values(insertUser).returning();
+    const isApproved = insertUser.role !== 'PRODUCER';
+    const [user] = await db.insert(users).values({ ...insertUser, isApproved }).returning();
+    return user;
+  }
+
+  async getUsers(): Promise<User[]> {
+    return await db.select().from(users).orderBy(desc(users.createdAt));
+  }
+
+  async updateUserStatus(id: number, isApproved: boolean): Promise<User | undefined> {
+    const [user] = await db.update(users).set({ isApproved }).where(eq(users.id, id)).returning();
     return user;
   }
   

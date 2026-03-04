@@ -14,12 +14,17 @@ import Profile from "./pages/Profile";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminProducts from "./pages/admin/Products";
 import AdminOrders from "./pages/admin/Orders";
+import AdminUsers from "./pages/admin/Users";
+import Producers from "./pages/Producers";
+import OurStory from "./pages/OurStory";
 import NotFound from "./pages/not-found";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/producers" component={Producers} />
+      <Route path="/our-story" component={OurStory} />
       <Route path="/product/:id" component={ProductDetail} />
       <Route path="/cart" component={Cart} />
       <Route path="/checkout" component={Checkout} />
@@ -30,6 +35,7 @@ function Router() {
       <Route path="/admin" component={AdminDashboard} />
       <Route path="/admin/products" component={AdminProducts} />
       <Route path="/admin/orders" component={AdminOrders} />
+      <Route path="/admin/users" component={AdminUsers} />
       
       {/* Fallback */}
       <Route component={NotFound} />

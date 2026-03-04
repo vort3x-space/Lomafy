@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { useUser, useLogout } from "@/hooks/use-auth";
-import { Loader2, LayoutDashboard, Package, ShoppingCart, LogOut } from "lucide-react";
+import { Loader2, LayoutDashboard, Package, ShoppingCart, Users, LogOut } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -71,6 +71,14 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
                       <Link href="/admin/orders">
                         <ShoppingCart />
                         <span>Orders</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link href="/admin/users">
+                        <Users />
+                        <span>Users</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
