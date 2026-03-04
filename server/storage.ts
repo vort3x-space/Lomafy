@@ -5,7 +5,7 @@ import {
   type Product, type InsertProduct, type Order, type InsertOrder,
   type OrderItem, type InsertOrderItem
 } from "@shared/schema";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 
 export interface IStorage {
   // Users
@@ -60,8 +60,8 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getApprovedProducers(): Promise<User[]> {
-    return await db.select().from(users)
-      .where(and(eq(users.role, 'PRODUCER'), eq(users.isApproved, true)));
+    const allUsers = await db.select().from(users).where(and(eq(users.role, 'PRODUCER'), eq(users.isApproved, true)));
+    return allUsers;
   }
 
   async updateUserStatus(id: number, isApproved: boolean): Promise<User | undefined> {
