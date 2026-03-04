@@ -96,7 +96,7 @@ export function Navbar() {
                   )}
                   {user.role === 'PRODUCER' && (
                     <DropdownMenuItem asChild>
-                      <Link href="/admin/products" className="cursor-pointer w-full flex items-center text-primary font-medium">
+                      <Link href="/admin" className="cursor-pointer w-full flex items-center text-primary font-medium">
                         <Store className="mr-2 h-4 w-4" />
                         {t('nav.producer_panel')}
                       </Link>

@@ -275,6 +275,11 @@ export async function registerRoutes(
     if (!user) return res.status(404).json({ message: "User not found" });
     res.json(user);
   });
+
+  app.get('/api/producers', async (req, res) => {
+    const producers = await storage.getApprovedProducers();
+    res.json(producers);
+  });
   
   await seedDatabase();
 

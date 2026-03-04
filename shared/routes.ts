@@ -154,6 +154,15 @@ export const api = {
       }
     }
   },
+  producers: {
+    list: {
+      method: 'GET' as const,
+      path: '/api/producers' as const,
+      responses: {
+        200: z.array(z.custom<typeof users.$inferSelect>()),
+      }
+    }
+  },
   dashboard: {
     stats: {
       method: 'GET' as const,

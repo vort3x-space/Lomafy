@@ -13,6 +13,7 @@ export interface IStorage {
   getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   getUsers(): Promise<User[]>;
+  getApprovedProducers(): Promise<User[]>;
   updateUserStatus(id: number, isApproved: boolean): Promise<User | undefined>;
   
   // Categories
@@ -56,6 +57,10 @@ export class DatabaseStorage implements IStorage {
 
   async getUsers(): Promise<User[]> {
     return await db.select().from(users).orderBy(desc(users.createdAt));
+  }
+
+  async getApprovedProducers(): Promise<User[]> {
+    return await db.select().from(users).where(eq(users.role, 'PRODUCER')).where(eq(users.isApproved, true));
   }
 
   async updateUserStatus(id: number, isApproved: boolean): Promise<User | undefined> {

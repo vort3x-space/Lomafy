@@ -22,7 +22,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
     return <div className="flex h-screen items-center justify-center"><Loader2 className="w-8 h-8 animate-spin" /></div>;
   }
 
-  if (!user || user.role !== 'ADMIN') {
+  if (!user || (user.role !== 'ADMIN' && user.role !== 'PRODUCER')) {
     setLocation('/');
     return null;
   }
@@ -74,14 +74,16 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                      <Link href="/admin/users">
-                        <Users />
-                        <span>Users</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
+                  {user.role === 'ADMIN' && (
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild>
+                        <Link href="/admin/users">
+                          <Users />
+                          <span>Users</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )}
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
