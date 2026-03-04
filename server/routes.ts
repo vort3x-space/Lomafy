@@ -123,7 +123,19 @@ export async function registerRoutes(
   // Products
   app.get(api.products.list.path, async (req, res) => {
     const { categoryId, search } = req.query;
-    const products = await storage.getProducts(categoryId as string, search as string);
+    const authHeader = req.headers['authorization'];
+    let producerId: number | undefined;
+    if (authHeader) {
+      try {
+        const token = authHeader.split(' ')[1];
+        const payload = jwt.verify(token, JWT_SECRET) as JwtPayload;
+        const user = await storage.getUser(payload.userId);
+        if (user?.role === 'PRODUCER') {
+          producerId = user.id;
+        }
+      } catch (e) {}
+    }
+    const products = await storage.getProducts(categoryId as string, search as string, producerId);
     res.json(products);
   });
 
@@ -133,7 +145,7 @@ export async function registerRoutes(
     res.json(product);
   });
 
-  app.post(api.products.create.path, authenticateToken, requireAdmin, async (req, res) => {
+  app.post(api.products.create.path, authenticateToken, async (req, res) => {
     try {
       const bodySchema = api.products.create.input.extend({
         price: z.coerce.string(),
@@ -141,7 +153,12 @@ export async function registerRoutes(
         categoryId: z.coerce.number().optional(),
       });
       const input = bodySchema.parse(req.body);
-      const product = await storage.createProduct(input);
+      const user = await storage.getUser(req.user!.userId);
+      
+      const product = await storage.createProduct({
+        ...input,
+        producerId: user?.role === 'PRODUCER' ? user.id : null
+      });
       res.status(201).json(product);
     } catch (err) {
       if (err instanceof z.ZodError) res.status(400).json({ message: err.errors[0].message });

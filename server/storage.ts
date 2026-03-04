@@ -62,9 +62,13 @@ export class DatabaseStorage implements IStorage {
   }
   
   // Products
-  async getProducts(categoryId?: string, search?: string): Promise<Product[]> {
+  async getProducts(categoryId?: string, search?: string, producerId?: number): Promise<Product[]> {
     const allProducts = await db.select().from(products);
     let filtered = allProducts;
+    
+    if (producerId) {
+      filtered = filtered.filter(p => p.producerId === producerId);
+    }
     
     if (categoryId) {
       filtered = filtered.filter(p => p.categoryId === parseInt(categoryId));

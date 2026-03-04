@@ -8,7 +8,8 @@ export const users = pgTable("users", {
   email: text("email").notNull().unique(),
   password: text("password").notNull(),
   name: text("name").notNull(),
-  role: text("role").notNull().default('USER'), // 'ADMIN', 'USER'
+  role: text("role").notNull().default('USER'), // 'ADMIN', 'USER', 'PRODUCER'
+  brandName: text("brand_name"),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -21,6 +22,7 @@ export const categories = pgTable("categories", {
 export const products = pgTable("products", {
   id: serial("id").primaryKey(),
   categoryId: integer("category_id").references(() => categories.id),
+  producerId: integer("producer_id").references(() => users.id),
   name: text("name").notNull(),
   slug: text("slug").notNull().unique(),
   description: text("description").notNull(),
@@ -54,6 +56,10 @@ export const productsRelations = relations(products, ({ one }) => ({
   category: one(categories, {
     fields: [products.categoryId],
     references: [categories.id],
+  }),
+  producer: one(users, {
+    fields: [products.producerId],
+    references: [users.id],
   }),
 }));
 

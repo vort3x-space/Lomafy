@@ -1,7 +1,8 @@
 import { Link, useLocation } from "wouter";
-import { ShoppingBag, User as UserIcon, Menu, LogOut, LayoutDashboard } from "lucide-react";
+import { ShoppingBag, User as UserIcon, Menu, LogOut, LayoutDashboard, Store, Languages } from "lucide-react";
 import { useCart } from "@/store/cart";
 import { useUser, useLogout } from "@/hooks/use-auth";
+import { useLanguage } from "@/store/language";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -18,6 +19,7 @@ export function Navbar() {
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const { data: user } = useUser();
   const logout = useLogout();
+  const { t, language, setLanguage } = useLanguage();
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border/40">
@@ -31,17 +33,27 @@ export function Navbar() {
 
           <div className="hidden md:flex items-center space-x-8">
             <Link href="/" className={`text-sm font-medium transition-colors hover:text-primary ${location === '/' ? 'text-primary' : 'text-muted-foreground'}`}>
-              Shop
+              {t('nav.shop')}
             </Link>
             <Link href="/" className="text-sm font-medium transition-colors text-muted-foreground hover:text-primary">
-              Producers
+              {t('nav.producers')}
             </Link>
             <Link href="/" className="text-sm font-medium transition-colors text-muted-foreground hover:text-primary">
-              Our Story
+              {t('nav.our_story')}
             </Link>
           </div>
 
           <div className="flex items-center space-x-4">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => setLanguage(language === 'tr' ? 'en' : 'tr')}
+              className="flex items-center gap-2"
+            >
+              <Languages className="w-4 h-4" />
+              <span className="uppercase text-xs font-bold">{language}</span>
+            </Button>
+
             <Link href="/cart" className="relative p-2 text-muted-foreground hover:text-primary transition-colors">
               <ShoppingBag className="w-5 h-5" />
               {cartCount > 0 && (
@@ -71,28 +83,36 @@ export function Navbar() {
                   <DropdownMenuItem asChild>
                     <Link href="/profile" className="cursor-pointer w-full flex items-center">
                       <UserIcon className="mr-2 h-4 w-4" />
-                      Profile & Orders
+                      {t('nav.profile')}
                     </Link>
                   </DropdownMenuItem>
                   {user.role === 'ADMIN' && (
                     <DropdownMenuItem asChild>
                       <Link href="/admin" className="cursor-pointer w-full flex items-center">
                         <LayoutDashboard className="mr-2 h-4 w-4" />
-                        Admin Dashboard
+                        {t('nav.admin')}
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  {user.role === 'PRODUCER' && (
+                    <DropdownMenuItem asChild>
+                      <Link href="/admin/products" className="cursor-pointer w-full flex items-center text-primary font-medium">
+                        <Store className="mr-2 h-4 w-4" />
+                        {t('nav.producer_panel')}
                       </Link>
                     </DropdownMenuItem>
                   )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={logout} className="text-destructive focus:bg-destructive/10 cursor-pointer">
                     <LogOut className="mr-2 h-4 w-4" />
-                    Log out
+                    {t('nav.logout')}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
               <Link href="/auth">
                 <Button variant="outline" size="sm" className="hidden sm:flex rounded-full px-6 font-medium">
-                  Log in
+                  {t('nav.login')}
                 </Button>
               </Link>
             )}

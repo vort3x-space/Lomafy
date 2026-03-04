@@ -16,6 +16,8 @@ export default function Home() {
   
   const { data: categories } = useCategories();
 
+  const { t } = useLanguage();
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -35,13 +37,13 @@ export default function Home() {
           
           <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
             <h1 className="font-display font-bold text-5xl md:text-7xl mb-6 tracking-tight">
-              Crafted with intention.
+              {t('hero.title') || "Crafted with intention."}
             </h1>
             <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto font-light">
-              Discover goods directly from independent makers. No markups, just pure quality and honest design.
+              {t('hero.subtitle') || "Discover goods directly from independent makers. No markups, just pure quality and honest design."}
             </p>
             <Button size="lg" className="rounded-full px-8 text-lg h-14 bg-white text-black hover:bg-white/90 hover:scale-105 transition-transform duration-300">
-              Shop the Collection
+              {t('hero.cta') || "Shop the Collection"}
             </Button>
           </div>
         </section>
@@ -49,7 +51,7 @@ export default function Home() {
         {/* Products Section */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-12">
-            <h2 className="font-display text-3xl font-bold">Latest Arrivals</h2>
+            <h2 className="font-display text-3xl font-bold">{t('home.latest_arrivals') || "Latest Arrivals"}</h2>
             
             <div className="flex overflow-x-auto pb-4 md:pb-0 mt-6 md:mt-0 space-x-2 hide-scrollbar">
               <Button 
@@ -57,7 +59,7 @@ export default function Home() {
                 className="rounded-full"
                 onClick={() => setActiveCategory(undefined)}
               >
-                All
+                {t('home.all') || "All"}
               </Button>
               {categories?.map((cat) => (
                 <Button 
@@ -86,7 +88,7 @@ export default function Home() {
           
           {products?.length === 0 && !isLoadingProducts && (
             <div className="text-center py-20 bg-secondary/50 rounded-2xl">
-              <p className="text-lg text-muted-foreground">No products found in this category.</p>
+              <p className="text-lg text-muted-foreground">{t('home.no_products') || "No products found in this category."}</p>
             </div>
           )}
         </section>
