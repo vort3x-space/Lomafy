@@ -9,66 +9,66 @@
     --font-sans: 'DM Sans', sans-serif;
     --font-display: 'Outfit', sans-serif;
 
-    /* LOMAFY Brand - Minimalist Luxury */
+    /* LOMAFY Brand - Warm Earth Palette */
     --background: 0 0% 99%;
-    --foreground: 0 0% 9%;
+    --foreground: 16 32% 25%;
     
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 9%;
+    --card-foreground: 16 32% 25%;
     
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 9%;
+    --popover-foreground: 16 32% 25%;
     
-    --primary: 222 47% 11%;
+    --primary: 18 55% 53%;
     --primary-foreground: 0 0% 98%;
     
-    --secondary: 0 0% 93%;
-    --secondary-foreground: 0 0% 9%;
+    --secondary: 32 48% 70%;
+    --secondary-foreground: 16 32% 25%;
     
-    --muted: 0 0% 93%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 32 48% 80%;
+    --muted-foreground: 16 32% 40%;
     
-    --accent: 35 25% 90%;
-    --accent-foreground: 222 47% 11%;
+    --accent: 16 32% 44%;
+    --accent-foreground: 0 0% 98%;
     
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 222 47% 11%;
+    --border: 18 40% 85%;
+    --input: 18 40% 90%;
+    --ring: 18 55% 53%;
 
     --radius: 0.5rem;
   }
 
   .dark {
     --background: 0 0% 7%;
-    --foreground: 0 0% 98%;
+    --foreground: 32 48% 85%;
     
     --card: 0 0% 10%;
-    --card-foreground: 0 0% 98%;
+    --card-foreground: 32 48% 85%;
     
     --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 98%;
+    --popover-foreground: 32 48% 85%;
     
-    --primary: 0 0% 98%;
-    --primary-foreground: 222 47% 11%;
+    --primary: 18 55% 65%;
+    --primary-foreground: 16 32% 25%;
     
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 32 48% 35%;
+    --secondary-foreground: 32 48% 85%;
     
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 32 48% 25%;
+    --muted-foreground: 32 48% 60%;
     
-    --accent: 35 25% 20%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 16 32% 60%;
+    --accent-foreground: 16 32% 25%;
     
-    --destructive: 0 62% 30%;
+    --destructive: 0 62% 40%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
-    --ring: 0 0% 98%;
+    --border: 18 40% 20%;
+    --input: 18 40% 15%;
+    --ring: 18 55% 65%;
   }
 }
 

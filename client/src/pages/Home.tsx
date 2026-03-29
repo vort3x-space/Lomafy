@@ -10,6 +10,7 @@ import { useLanguage } from "@/store/language";
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<string | undefined>();
+  const [productType, setProductType] = useState<'all' | 'wholesale' | 'retail'>('all');
   
   const { data: products, isLoading: isLoadingProducts } = useProducts({ 
     categoryId: activeCategory 
@@ -51,28 +52,52 @@ export default function Home() {
 
         {/* Products Section */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-12">
-            <h2 className="font-display text-3xl font-bold">{t('home.latest_arrivals') || "Latest Arrivals"}</h2>
-            
-            <div className="flex overflow-x-auto pb-4 md:pb-0 mt-6 md:mt-0 space-x-2 hide-scrollbar">
+          <h2 className="font-display text-3xl font-bold mb-8">{t('home.latest_arrivals') || "Latest Arrivals"}</h2>
+          
+          {/* Category Filter */}
+          <div className="flex overflow-x-auto pb-4 mb-8 space-x-2 hide-scrollbar">
+            <Button 
+              variant={!activeCategory ? "default" : "outline"} 
+              className="rounded-full"
+              onClick={() => setActiveCategory(undefined)}
+            >
+              {t('home.all') || "All"}
+            </Button>
+            {categories?.map((cat) => (
               <Button 
-                variant={!activeCategory ? "default" : "outline"} 
+                key={cat.id}
+                variant={activeCategory === cat.id.toString() ? "default" : "outline"} 
                 className="rounded-full"
-                onClick={() => setActiveCategory(undefined)}
+                onClick={() => setActiveCategory(cat.id.toString())}
               >
-                {t('home.all') || "All"}
+                {cat.name}
               </Button>
-              {categories?.map((cat) => (
-                <Button 
-                  key={cat.id}
-                  variant={activeCategory === cat.id.toString() ? "default" : "outline"} 
-                  className="rounded-full"
-                  onClick={() => setActiveCategory(cat.id.toString())}
-                >
-                  {cat.name}
-                </Button>
-              ))}
-            </div>
+            ))}
+          </div>
+
+          {/* Product Type Filter */}
+          <div className="flex gap-3 mb-12">
+            <Button 
+              variant={productType === 'all' ? "default" : "outline"} 
+              className="rounded-full"
+              onClick={() => setProductType('all')}
+            >
+              {t('home.all_types') || "Tüm Ürünler"}
+            </Button>
+            <Button 
+              variant={productType === 'retail' ? "default" : "outline"} 
+              className="rounded-full"
+              onClick={() => setProductType('retail')}
+            >
+              {t('home.retail') || "Perakende"}
+            </Button>
+            <Button 
+              variant={productType === 'wholesale' ? "default" : "outline"} 
+              className="rounded-full"
+              onClick={() => setProductType('wholesale')}
+            >
+              {t('home.wholesale') || "Toptan"}
+            </Button>
           </div>
 
           {isLoadingProducts ? (

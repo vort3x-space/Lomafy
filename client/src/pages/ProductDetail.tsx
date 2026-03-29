@@ -15,6 +15,7 @@ export default function ProductDetail() {
   const addItem = useCart((state) => state.addItem);
   const { toast } = useToast();
   const [quantity, setQuantity] = useState(1);
+  const [purchaseType, setPurchaseType] = useState<'retail' | 'wholesale'>('retail');
 
   const { t } = useLanguage();
 
@@ -98,6 +99,26 @@ export default function ProductDetail() {
                   >
                     +
                   </button>
+                </div>
+              </div>
+
+              <div>
+                <span className="font-medium text-sm text-foreground uppercase tracking-widest block mb-3">{t('product.purchase_type') || 'Satış Türü'}</span>
+                <div className="flex gap-3">
+                  <Button 
+                    variant={purchaseType === 'retail' ? "default" : "outline"}
+                    className="rounded-full flex-1"
+                    onClick={() => setPurchaseType('retail')}
+                  >
+                    {t('product.retail') || 'Perakende'}
+                  </Button>
+                  <Button 
+                    variant={purchaseType === 'wholesale' ? "default" : "outline"}
+                    className="rounded-full flex-1"
+                    onClick={() => setPurchaseType('wholesale')}
+                  >
+                    {t('product.wholesale') || 'Toptan'}
+                  </Button>
                 </div>
               </div>
               
