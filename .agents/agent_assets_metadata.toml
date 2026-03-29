@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "ubEY_HYS-YeodMq8b2-tK"
+uri = "file://deploy.md"
+type = "text"
+title = "LOMAFY — Apache + PM2 Deployment Rehberi"
