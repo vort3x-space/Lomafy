@@ -4,7 +4,7 @@ import { authFetch } from "@/lib/auth-fetch";
 import { z } from "zod";
 import type { InsertProduct } from "@shared/schema";
 
-export function useProducts(params?: { categoryId?: string; search?: string; saleType?: string }) {
+export function useProducts(params?: { categoryId?: string; search?: string; saleType?: string; myProducts?: boolean; producerId?: number }) {
   return useQuery({
     queryKey: [api.products.list.path, params],
     queryFn: async () => {
@@ -12,6 +12,8 @@ export function useProducts(params?: { categoryId?: string; search?: string; sal
       if (params?.categoryId) url.searchParams.append("categoryId", params.categoryId);
       if (params?.search) url.searchParams.append("search", params.search);
       if (params?.saleType && params.saleType !== 'all') url.searchParams.append("saleType", params.saleType);
+      if (params?.myProducts) url.searchParams.append("myProducts", "true");
+      if (params?.producerId) url.searchParams.append("producerId", String(params.producerId));
       
       const res = await authFetch(url.toString());
       if (!res.ok) throw new Error("Failed to fetch products");

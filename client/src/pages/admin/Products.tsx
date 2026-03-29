@@ -27,7 +27,7 @@ const productSchema = z.object({
 type ProductForm = z.infer<typeof productSchema>;
 
 export default function AdminProducts() {
-  const { data: products, isLoading } = useProducts();
+  const { data: products, isLoading } = useProducts({ myProducts: true });
   const { data: categories } = useCategories();
   const createMutation = useCreateProduct();
   const updateMutation = useUpdateProduct();
