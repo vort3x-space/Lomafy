@@ -19,18 +19,31 @@ export default function Producers() {
         <h1 className="text-4xl font-display font-bold mb-8">{t('nav.producers')}</h1>
         
         {isLoading ? (
-          <div className="flex justify-center p-20"><Loader2 className="animate-spin" /></div>
+          <div className="flex justify-center p-20"><Loader2 className="animate-spin text-primary" /></div>
         ) : producers && producers.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {producers.map((producer) => (
-              <div key={producer.id} className="bg-white p-8 rounded-3xl border border-border shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
-                  <Store className="w-8 h-8 text-primary" />
+              <div key={producer.id} className="bg-white rounded-xl border border-border shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
+                <div className="h-32 bg-gradient-to-br from-primary to-accent relative overflow-hidden">
+                  <div className="absolute inset-0 opacity-10 pattern-grid" />
                 </div>
-                <h3 className="text-xl font-bold mb-2">{producer.brandName || producer.name}</h3>
-                <p className="text-muted-foreground mb-4">{producer.name}</p>
-                <div className="flex items-center text-sm text-primary font-medium">
-                  <span>{t('nav.shop')} &rarr;</span>
+                
+                <div className="p-6">
+                  <div className="w-14 h-14 bg-white border-4 border-white rounded-full flex items-center justify-center mb-4 -mt-10 relative z-10 shadow-md">
+                    <Store className="w-7 h-7 text-primary" />
+                  </div>
+                  
+                  <h3 className="text-lg font-bold text-foreground mb-1">
+                    {producer.brandName || producer.name}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    {producer.name}
+                  </p>
+                  
+                  <div className="flex items-center text-sm text-primary font-semibold group-hover:gap-2 transition-all">
+                    <span>Ürünleri Gör</span>
+                    <span className="ml-auto group-hover:ml-2 transition-all">&rarr;</span>
+                  </div>
                 </div>
               </div>
             ))}

@@ -22,12 +22,15 @@ export function Navbar() {
   const { t, language, setLanguage } = useLanguage();
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border/40">
+    <nav className="sticky top-0 z-50 w-full bg-white border-b border-border shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <Link href="/" className="font-display font-bold text-2xl tracking-tight text-primary">
-              LOMAFY<span className="text-accent-foreground/50">.</span>
+            <Link href="/" className="font-display font-bold text-2xl tracking-tight text-primary flex items-center gap-2">
+              <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
+                <span className="text-white text-sm font-bold">L</span>
+              </div>
+              LOMAFY
             </Link>
           </div>
 

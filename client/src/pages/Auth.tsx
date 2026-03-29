@@ -8,6 +8,8 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import leftImagePath from "@assets/1_1774788202806.jpeg";
+import rightImagePath from "@assets/2_1774788202807.jpeg";
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
@@ -86,12 +88,32 @@ export default function Auth() {
   const isPending = loginMutation.isPending || registerMutation.isPending;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-secondary/30 p-4">
-      <Link href="/" className="absolute top-8 left-8 font-display font-bold text-2xl tracking-tight text-primary">
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Background Images - Left and Right */}
+      <div className="absolute inset-0 flex">
+        <div className="flex-1 relative overflow-hidden">
+          <img 
+            src={leftImagePath}
+            alt="LOMAFY left" 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
+        </div>
+        <div className="flex-1 relative overflow-hidden">
+          <img 
+            src={rightImagePath}
+            alt="LOMAFY right" 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-l from-black/50 to-transparent" />
+        </div>
+      </div>
+
+      <Link href="/" className="absolute top-8 left-8 font-display font-bold text-2xl tracking-tight text-white z-20 drop-shadow-lg">
         LOMAFY.
       </Link>
 
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-xl p-8 border border-border">
+      <div className="w-full max-w-md bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20 relative z-10">
         <h1 className="font-display text-3xl font-bold mb-2">
           {isLogin ? t('auth.login') : t('auth.register')}
         </h1>
