@@ -125,7 +125,7 @@ export async function registerRoutes(
 
   // Products
   app.get(api.products.list.path, async (req, res) => {
-    const { categoryId, search } = req.query;
+    const { categoryId, search, saleType } = req.query;
     const authHeader = req.headers['authorization'];
     let producerId: number | undefined;
     if (authHeader) {
@@ -138,7 +138,7 @@ export async function registerRoutes(
         }
       } catch (e) {}
     }
-    const products = await storage.getProducts(categoryId as string, search as string, producerId);
+    const products = await storage.getProducts(categoryId as string, search as string, producerId, saleType as string);
     res.json(products);
   });
 

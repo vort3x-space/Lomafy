@@ -30,6 +30,7 @@ export const products = pgTable("products", {
   price: numeric("price", { precision: 10, scale: 2 }).notNull(),
   stock: integer("stock").notNull().default(0),
   imageUrl: text("image_url"),
+  saleType: text("sale_type").notNull().default('both'), // 'retail' | 'wholesale' | 'both'
   isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
 });

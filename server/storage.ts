@@ -21,7 +21,7 @@ export interface IStorage {
   createCategory(category: InsertCategory): Promise<Category>;
   
   // Products
-  getProducts(categoryId?: string, search?: string): Promise<Product[]>;
+  getProducts(categoryId?: string, search?: string, producerId?: number, saleType?: string): Promise<Product[]>;
   getProduct(id: number): Promise<Product | undefined>;
   createProduct(product: InsertProduct): Promise<Product>;
   updateProduct(id: number, product: Partial<InsertProduct>): Promise<Product | undefined>;
@@ -80,7 +80,7 @@ export class DatabaseStorage implements IStorage {
   }
   
   // Products
-  async getProducts(categoryId?: string, search?: string, producerId?: number): Promise<Product[]> {
+  async getProducts(categoryId?: string, search?: string, producerId?: number, saleType?: string): Promise<Product[]> {
     const allProducts = await db.select().from(products);
     let filtered = allProducts;
     
@@ -95,6 +95,10 @@ export class DatabaseStorage implements IStorage {
     if (search) {
       const s = search.toLowerCase();
       filtered = filtered.filter(p => p.name.toLowerCase().includes(s) || p.description.toLowerCase().includes(s));
+    }
+
+    if (saleType && saleType !== 'all') {
+      filtered = filtered.filter(p => p.saleType === saleType || p.saleType === 'both');
     }
     
     return filtered;
