@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useLanguage } from "@/store/language";
+import heroImagePath from "@assets/WhatsApp_Image_2026-03-08_at_21.40.06_1774788016245.jpeg";
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<string | undefined>();
@@ -28,13 +29,13 @@ export default function Home() {
         {/* Hero Section */}
         <section className="relative h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
-            {/* beautiful minimalist interior shot */}
+            {/* LOMAFY hero image */}
             <img 
-              src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=2000&q=80" 
-              alt="Minimalist desk setup" 
+              src={heroImagePath}
+              alt="LOMAFY platform" 
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-black/20" />
           </div>
           
           <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
@@ -56,13 +57,6 @@ export default function Home() {
           
           {/* Category Filter */}
           <div className="flex overflow-x-auto pb-4 mb-8 space-x-2 hide-scrollbar">
-            <Button 
-              variant={!activeCategory ? "default" : "outline"} 
-              className="rounded-full"
-              onClick={() => setActiveCategory(undefined)}
-            >
-              {t('home.all') || "All"}
-            </Button>
             {categories?.map((cat) => (
               <Button 
                 key={cat.id}
