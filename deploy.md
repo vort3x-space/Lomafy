@@ -97,6 +97,10 @@ Build sonucunda `dist/` klasörü oluşur:
 
 ## ADIM 5 — PM2 Ecosystem Dosyası Oluştur
 
+> ℹ️ **Not:** Uygulama, `.env` dosyasını **otomatik olarak** yükler (`dotenv` entegre edilmiştir).
+> PM2 veya sistem ortam değişkeni ayarlamanıza gerek yoktur — sadece `.env` dosyasının
+> `/var/www/lomafy/.env` konumunda olması yeterlidir.
+
 ```bash
 nano /var/www/lomafy/ecosystem.config.cjs
 ```
@@ -112,11 +116,6 @@ module.exports = {
       cwd: "/var/www/lomafy",
       instances: 1,
       exec_mode: "fork",
-      env_file: ".env",
-      env: {
-        NODE_ENV: "production",
-        PORT: 3001,
-      },
       error_file: "/var/log/pm2/lomafy-error.log",
       out_file: "/var/log/pm2/lomafy-out.log",
       log_date_format: "YYYY-MM-DD HH:mm:ss",
