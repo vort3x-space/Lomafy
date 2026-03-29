@@ -8,7 +8,6 @@ const allowlist = [
   "@google/generative-ai",
   "axios",
   "connect-pg-simple",
-  "dotenv",
   "cors",
   "date-fns",
   "drizzle-orm",
@@ -53,6 +52,9 @@ async function buildAll() {
     bundle: true,
     format: "cjs",
     outfile: "dist/index.cjs",
+    banner: {
+      js: `require('dotenv').config();`,
+    },
     define: {
       "process.env.NODE_ENV": '"production"',
     },
