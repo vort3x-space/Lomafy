@@ -11,7 +11,7 @@ import heroImagePath from "@assets/WhatsApp_Image_2026-03-08_at_21.40.06_1774788
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<string | undefined>();
-  const [productType, setProductType] = useState<'all' | 'wholesale' | 'retail'>('all');
+  const [productType, setProductType] = useState<'wholesale' | 'retail'>('retail');
   
   const { data: products, isLoading: isLoadingProducts } = useProducts({ 
     categoryId: activeCategory 
@@ -71,13 +71,6 @@ export default function Home() {
 
           {/* Product Type Filter */}
           <div className="flex gap-3 mb-12">
-            <Button 
-              variant={productType === 'all' ? "default" : "outline"} 
-              className="rounded-full"
-              onClick={() => setProductType('all')}
-            >
-              {t('home.all_types') || "Tüm Ürünler"}
-            </Button>
             <Button 
               variant={productType === 'retail' ? "default" : "outline"} 
               className="rounded-full"
