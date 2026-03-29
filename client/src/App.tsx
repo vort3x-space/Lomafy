@@ -16,6 +16,7 @@ import AdminProducts from "./pages/admin/Products";
 import AdminOrders from "./pages/admin/Orders";
 import AdminUsers from "./pages/admin/Users";
 import Producers from "./pages/Producers";
+import ProducerDetail from "./pages/ProducerDetail";
 import OurStory from "./pages/OurStory";
 import NotFound from "./pages/not-found";
 
@@ -24,6 +25,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/producers" component={Producers} />
+      <Route path="/producers/:id" component={ProducerDetail} />
       <Route path="/our-story" component={OurStory} />
       <Route path="/product/:id" component={ProductDetail} />
       <Route path="/cart" component={Cart} />

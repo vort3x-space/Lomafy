@@ -125,16 +125,16 @@ export async function registerRoutes(
 
   // Products
   app.get(api.products.list.path, async (req, res) => {
-    const { categoryId, search, saleType } = req.query;
+    const { categoryId, search, saleType, producerId: producerIdQuery } = req.query;
     const authHeader = req.headers['authorization'];
-    let producerId: number | undefined;
+    let producerId: number | undefined = producerIdQuery ? Number(producerIdQuery) : undefined;
     if (authHeader) {
       try {
         const token = authHeader.split(' ')[1];
         const payload = jwt.verify(token, JWT_SECRET) as JwtPayload;
         const user = await storage.getUser(payload.userId);
         if (user?.role === 'PRODUCER') {
-          producerId = user.id;
+          producerId = user.id; // producers can only see their own
         }
       } catch (e) {}
     }

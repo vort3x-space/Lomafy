@@ -2,6 +2,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { useLanguage } from "@/store/language";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "wouter";
 import type { User } from "@shared/schema";
 import { Loader2, Store, Package } from "lucide-react";
 
@@ -40,30 +41,29 @@ export default function Producers() {
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 {producers.map((producer) => (
-                  <div
-                    key={producer.id}
-                    className="bg-white rounded-lg border border-border shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 overflow-hidden group cursor-pointer"
-                  >
-                    {/* Mini gradient bar */}
-                    <div className="h-16 bg-gradient-to-br from-primary/80 to-accent flex items-center justify-center">
-                      <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                        <Store className="w-5 h-5 text-white" />
+                  <Link key={producer.id} href={`/producers/${producer.id}`}>
+                    <div className="bg-white rounded-lg border border-border shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 overflow-hidden group cursor-pointer">
+                      {/* Mini gradient bar */}
+                      <div className="h-16 bg-gradient-to-br from-primary/80 to-accent flex items-center justify-center">
+                        <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                          <Store className="w-5 h-5 text-white" />
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="p-3 text-center">
-                      <h3 className="font-semibold text-sm text-foreground leading-tight line-clamp-1">
-                        {producer.brandName || producer.name}
-                      </h3>
-                      <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
-                        {producer.brandName ? producer.name : ""}
-                      </p>
-                      <div className="mt-2 flex items-center justify-center gap-1 text-xs text-primary font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Package className="w-3 h-3" />
-                        <span>Ürünleri Gör</span>
+                      <div className="p-3 text-center">
+                        <h3 className="font-semibold text-sm text-foreground leading-tight line-clamp-1">
+                          {producer.brandName || producer.name}
+                        </h3>
+                        <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
+                          {producer.brandName ? producer.name : ""}
+                        </p>
+                        <div className="mt-2 flex items-center justify-center gap-1 text-xs text-primary font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Package className="w-3 h-3" />
+                          <span>Ürünleri Gör</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </>
