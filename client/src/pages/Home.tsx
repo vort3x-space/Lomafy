@@ -32,35 +32,34 @@ export default function Home() {
       <Navbar />
       
       <main className="flex-grow">
-        {/* Hero Section — resmin doğal oranını korur, masaüstünde 680px ile sınırlar */}
-        <section
-          className="relative w-full overflow-hidden"
-          style={{ paddingTop: 'min(66.5%, 680px)' }}
-        >
-          <img
-            src={heroImagePath}
-            alt="LOMAFY - Üreticinin Gücü Dünyaya Açılıyor"
-            className="absolute inset-0 w-full h-full object-cover object-top"
-          />
-          {/* Butonlar — resmin subtitle sonrasına (%45) sabitlendi */}
-          <div className="absolute inset-x-0" style={{ top: '45%' }}>
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-3 px-4">
-              <Button
-                size="lg"
-                data-testid="button-alisverise-basla"
-                className="rounded-full px-8 h-12 text-base font-bold bg-[#c97632] hover:bg-[#b8692a] text-white shadow-xl border-0 min-w-[180px]"
-                onClick={scrollToProducts}
-              >
-                Alışverişe Başla
-              </Button>
-              <Button
-                size="lg"
-                data-testid="button-uretici-ol"
-                onClick={() => setLocation('/producer-apply')}
-                className="rounded-full px-8 h-12 text-base font-bold bg-white text-[#c97632] border-2 border-white hover:bg-white/90 shadow-xl min-w-[180px]"
-              >
-                Üretici Ol
-              </Button>
+        {/* Hero Section */}
+        <section className="relative w-full overflow-hidden">
+          <div className="relative w-full" style={{ paddingTop: '52%' }}>
+            <img 
+              src={heroImagePath}
+              alt="LOMAFY - Üreticinin Gücü Dünyaya Açılıyor" 
+              className="absolute inset-0 w-full h-full object-cover object-top"
+            />
+            {/* Button overlay — positioned below subtitle text */}
+            <div className="absolute w-full" style={{ top: '54%' }}>
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-3 px-4">
+                <Button
+                  size="lg"
+                  data-testid="button-alisverise-basla"
+                  className="rounded-full px-8 h-12 text-base font-bold bg-[#c97632] hover:bg-[#b8692a] text-white shadow-xl border-0 min-w-[180px]"
+                  onClick={scrollToProducts}
+                >
+                  Alışverişe Başla
+                </Button>
+                <Button
+                  size="lg"
+                  data-testid="button-uretici-ol"
+                  onClick={() => setLocation('/producer-apply')}
+                  className="rounded-full px-8 h-12 text-base font-bold bg-white text-[#c97632] border-2 border-white hover:bg-white/90 shadow-xl min-w-[180px]"
+                >
+                  Üretici Ol
+                </Button>
+              </div>
             </div>
           </div>
         </section>
