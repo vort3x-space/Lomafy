@@ -18,6 +18,7 @@ import AdminUsers from "./pages/admin/Users";
 import Producers from "./pages/Producers";
 import ProducerDetail from "./pages/ProducerDetail";
 import OurStory from "./pages/OurStory";
+import ProducerApply from "./pages/ProducerApply";
 import NotFound from "./pages/not-found";
 
 function Router() {
@@ -31,6 +32,7 @@ function Router() {
       <Route path="/cart" component={Cart} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/auth" component={Auth} />
+      <Route path="/producer-apply" component={ProducerApply} />
       <Route path="/profile" component={Profile} />
       
       {/* Admin Routes */}

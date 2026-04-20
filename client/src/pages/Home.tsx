@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "wouter";
 import { useProducts } from "@/hooks/use-products";
 import { useCategories } from "@/hooks/use-categories";
 import { ProductCard } from "@/components/ProductCard";
@@ -7,20 +8,24 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useLanguage } from "@/store/language";
-import heroImagePath from "@assets/WhatsApp_Image_2026-03-08_at_21.40.06_1774788016245.jpeg";
+import heroImagePath from "@assets/Login_1776680748796.jpeg";
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<string | undefined>();
   const [productType, setProductType] = useState<'all' | 'wholesale' | 'retail'>('all');
-  
+  const [, setLocation] = useLocation();
+
   const { data: products, isLoading: isLoadingProducts } = useProducts({ 
     categoryId: activeCategory,
     saleType: productType,
   });
   
   const { data: categories } = useCategories();
-
   const { t } = useLanguage();
+
+  const scrollToProducts = () => {
+    document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -28,32 +33,39 @@ export default function Home() {
       
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="relative h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden">
-          <div className="absolute inset-0 z-0">
-            {/* LOMAFY hero image */}
+        <section className="relative w-full overflow-hidden">
+          <div className="relative w-full" style={{ paddingTop: '52%' }}>
             <img 
               src={heroImagePath}
-              alt="LOMAFY platform" 
-              className="w-full h-full object-cover"
+              alt="LOMAFY - Üreticinin Gücü Dünyaya Açılıyor" 
+              className="absolute inset-0 w-full h-full object-cover object-top"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-black/20" />
-          </div>
-          
-          <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
-            <h1 className="font-display font-bold text-5xl md:text-7xl mb-6 tracking-tight">
-              {t('hero.title') || "Crafted with intention."}
-            </h1>
-            <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto font-light">
-              {t('hero.subtitle') || "Discover goods directly from independent makers. No markups, just pure quality and honest design."}
-            </p>
-            <Button size="lg" className="rounded-full px-8 text-lg h-14 bg-white text-black hover:bg-white/90 hover:scale-105 transition-transform duration-300">
-              {t('hero.cta') || "Shop the Collection"}
-            </Button>
+            {/* Button overlay — positioned below subtitle text */}
+            <div className="absolute w-full" style={{ top: '38%' }}>
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-3 px-4">
+                <Button
+                  size="lg"
+                  data-testid="button-alisverise-basla"
+                  className="rounded-full px-8 h-12 text-base font-bold bg-[#c97632] hover:bg-[#b8692a] text-white shadow-xl border-0 min-w-[180px]"
+                  onClick={scrollToProducts}
+                >
+                  Alışverişe Başla
+                </Button>
+                <Button
+                  size="lg"
+                  data-testid="button-uretici-ol"
+                  onClick={() => setLocation('/producer-apply')}
+                  className="rounded-full px-8 h-12 text-base font-bold bg-white text-[#c97632] border-2 border-white hover:bg-white/90 shadow-xl min-w-[180px]"
+                >
+                  Üretici Ol
+                </Button>
+              </div>
+            </div>
           </div>
         </section>
 
         {/* Products Section */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <section id="products-section" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <h2 className="font-display text-3xl font-bold mb-8">{t('home.latest_arrivals') || "Latest Arrivals"}</h2>
           
           {/* Category Filter */}
@@ -61,6 +73,7 @@ export default function Home() {
             {categories?.map((cat) => (
               <Button 
                 key={cat.id}
+                data-testid={`button-category-${cat.id}`}
                 variant={activeCategory === cat.id.toString() ? "default" : "outline"} 
                 className="rounded-full"
                 onClick={() => setActiveCategory(cat.id.toString())}
@@ -73,6 +86,7 @@ export default function Home() {
           {/* Product Type Filter */}
           <div className="flex gap-3 mb-12">
             <Button 
+              data-testid="button-filter-all"
               variant={productType === 'all' ? "default" : "outline"} 
               className="rounded-full"
               onClick={() => setProductType('all')}
@@ -80,6 +94,7 @@ export default function Home() {
               {t('home.all_types') || "Tüm Ürünler"}
             </Button>
             <Button 
+              data-testid="button-filter-retail"
               variant={productType === 'retail' ? "default" : "outline"} 
               className="rounded-full"
               onClick={() => setProductType('retail')}
@@ -87,6 +102,7 @@ export default function Home() {
               {t('home.retail') || "Perakende"}
             </Button>
             <Button 
+              data-testid="button-filter-wholesale"
               variant={productType === 'wholesale' ? "default" : "outline"} 
               className="rounded-full"
               onClick={() => setProductType('wholesale')}
@@ -100,21 +116,21 @@ export default function Home() {
               <Loader2 className="w-8 h-8 animate-spin text-primary" />
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 gap-y-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {products?.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
           )}
           
-          {products?.length === 0 && !isLoadingProducts && (
-            <div className="text-center py-20 bg-secondary/50 rounded-2xl">
-              <p className="text-lg text-muted-foreground">{t('home.no_products') || "No products found in this category."}</p>
+          {!isLoadingProducts && products?.length === 0 && (
+            <div className="text-center py-20 text-muted-foreground">
+              <p className="text-xl">{t('home.no_products') || "No products found."}</p>
             </div>
           )}
         </section>
       </main>
-      
+
       <Footer />
     </div>
   );

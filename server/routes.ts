@@ -282,6 +282,49 @@ export async function registerRoutes(
     res.json(producers);
   });
 
+  // Producer Registration (application + user account)
+  app.post('/api/producer-register', async (req, res) => {
+    try {
+      const { email, password, contactName, companyName, taxId, sector, productionCapacity, phone, productionAddress, productCategory } = req.body;
+
+      if (!email || !password || !contactName || !companyName) {
+        return res.status(400).json({ message: "Zorunlu alanlar eksik" });
+      }
+
+      const existing = await storage.getUserByEmail(email);
+      if (existing) {
+        return res.status(400).json({ message: "Bu e-posta adresi zaten kayıtlı", field: "email" });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+      await storage.createUser({
+        email,
+        password: hashedPassword,
+        name: contactName,
+        role: 'PRODUCER',
+        brandName: companyName,
+        isApproved: false,
+      });
+
+      await storage.createProducerApplication({
+        companyName,
+        taxId,
+        sector,
+        productionCapacity: parseInt(productionCapacity),
+        contactName,
+        phone,
+        email,
+        productionAddress,
+        productCategory,
+      });
+
+      res.status(201).json({ message: "Başvurunuz alındı. Admin onayı bekleniyor." });
+    } catch (err) {
+      if (err instanceof z.ZodError) res.status(400).json({ message: err.errors[0].message });
+      else res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
   // Producer Applications
   app.post('/api/producer-applications', async (req, res) => {
     try {

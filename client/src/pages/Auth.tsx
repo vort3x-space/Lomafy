@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import leftImagePath from "@assets/1_1774788202806.jpeg";
 import rightImagePath from "@assets/2_1774788202807.jpeg";
 
@@ -24,7 +23,7 @@ export default function Auth() {
     email: '',
     password: '',
     name: '',
-    role: 'USER' as 'USER' | 'PRODUCER',
+    role: 'USER' as 'USER',
     brandName: ''
   });
 
@@ -134,33 +133,6 @@ export default function Auth() {
                   onChange={e => setFormData({...formData, name: e.target.value})}
                 />
               </div>
-              <div>
-                <Label>{t('auth.role') || "Account Type"}</Label>
-                <Select 
-                  value={formData.role} 
-                  onValueChange={(value: 'USER' | 'PRODUCER') => setFormData({...formData, role: value})}
-                >
-                  <SelectTrigger className="mt-1 h-12">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="USER">{t('auth.role_user') || "Buyer"}</SelectItem>
-                    <SelectItem value="PRODUCER">{t('auth.role_producer') || "Producer"}</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              {formData.role === 'PRODUCER' && (
-                <div>
-                  <Label htmlFor="brandName">{t('auth.brand_name')}</Label>
-                  <Input 
-                    id="brandName" 
-                    required 
-                    className="mt-1 h-12" 
-                    value={formData.brandName}
-                    onChange={e => setFormData({...formData, brandName: e.target.value})}
-                  />
-                </div>
-              )}
             </>
           )}
           
