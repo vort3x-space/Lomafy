@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
+import lomafyLogo from "@assets/favicon-32_1776683370470.png";
 import { ShoppingBag, User as UserIcon, Menu, X, LogOut, LayoutDashboard, Store, Languages } from "lucide-react";
 import { useCart } from "@/store/cart";
 import { useUser, useLogout } from "@/hooks/use-auth";
@@ -36,9 +37,7 @@ export function Navbar() {
           {/* Logo */}
           <div className="flex items-center">
             <Link href="/" className="font-display font-bold text-2xl tracking-tight text-primary flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
-                <span className="text-white text-sm font-bold">L</span>
-              </div>
+              <img src={lomafyLogo} alt="LOMAFY" className="w-9 h-9 object-contain" />
               LOMAFY
             </Link>
           </div>
