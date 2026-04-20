@@ -35,7 +35,7 @@ const translations: Record<Language, Record<string, string>> = {
     'admin.back_home': 'Ana Sayfaya Dön',
     'nav.shop': 'Mağaza',
     'nav.producers': 'Üreticiler',
-    'nav.our_story': 'Hikayemiz',
+    'nav.our_story': 'LOMAFY Nedir?',
     'nav.login': 'Giriş Yap',
     'nav.profile': 'Profil ve Siparişler',
     'nav.admin': 'Yönetici Paneli',
