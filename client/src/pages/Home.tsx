@@ -41,7 +41,7 @@ export default function Home() {
               className="absolute inset-0 w-full h-full object-cover object-top"
             />
             {/* Button overlay — positioned below subtitle text */}
-            <div className="absolute w-full" style={{ top: '38%' }}>
+            <div className="absolute w-full" style={{ top: '47%' }}>
               <div className="flex flex-col sm:flex-row justify-center items-center gap-3 px-4">
                 <Button
                   size="lg"
