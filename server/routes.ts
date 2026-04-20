@@ -319,9 +319,10 @@ export async function registerRoutes(
       });
 
       res.status(201).json({ message: "Başvurunuz alındı. Admin onayı bekleniyor." });
-    } catch (err) {
+    } catch (err: any) {
+      console.error("[producer-register] Error:", err?.message || err);
       if (err instanceof z.ZodError) res.status(400).json({ message: err.errors[0].message });
-      else res.status(500).json({ message: "Internal server error" });
+      else res.status(500).json({ message: err?.message || "Internal server error" });
     }
   });
 
