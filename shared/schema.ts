@@ -103,6 +103,26 @@ export type InsertOrder = z.infer<typeof insertOrderSchema>;
 export type OrderItem = typeof orderItems.$inferSelect;
 export type InsertOrderItem = z.infer<typeof insertOrderItemSchema>;
 
+// Producer Applications
+export const producerApplications = pgTable("producer_applications", {
+  id: serial("id").primaryKey(),
+  companyName: text("company_name").notNull(),
+  taxId: text("tax_id").notNull(),
+  sector: text("sector").notNull(),
+  productionCapacity: integer("production_capacity").notNull(),
+  contactName: text("contact_name").notNull(),
+  phone: text("phone").notNull(),
+  email: text("email").notNull(),
+  productionAddress: text("production_address").notNull(),
+  productCategory: text("product_category").notNull(),
+  status: text("status").notNull().default('PENDING'),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertProducerApplicationSchema = createInsertSchema(producerApplications).omit({ id: true, createdAt: true, status: true });
+export type ProducerApplication = typeof producerApplications.$inferSelect;
+export type InsertProducerApplication = z.infer<typeof insertProducerApplicationSchema>;
+
 // Auth types
 export const loginSchema = z.object({
   email: z.string().email(),

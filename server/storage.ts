@@ -1,9 +1,10 @@
 import { db } from "./db";
 import {
-  users, categories, products, orders, orderItems,
+  users, categories, products, orders, orderItems, producerApplications,
   type User, type InsertUser, type Category, type InsertCategory,
   type Product, type InsertProduct, type Order, type InsertOrder,
-  type OrderItem, type InsertOrderItem
+  type OrderItem, type InsertOrderItem,
+  type ProducerApplication, type InsertProducerApplication
 } from "@shared/schema";
 import { eq, desc, and } from "drizzle-orm";
 
@@ -35,6 +36,10 @@ export interface IStorage {
   
   // Dashboard
   getDashboardStats(): Promise<any>;
+
+  // Producer Applications
+  createProducerApplication(app: InsertProducerApplication): Promise<ProducerApplication>;
+  getProducerApplications(): Promise<ProducerApplication[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -184,6 +189,16 @@ export class DatabaseStorage implements IStorage {
       totalProducts: allProducts.length,
       recentOrders
     };
+  }
+
+  // Producer Applications
+  async createProducerApplication(app: InsertProducerApplication): Promise<ProducerApplication> {
+    const [created] = await db.insert(producerApplications).values(app).returning();
+    return created;
+  }
+
+  async getProducerApplications(): Promise<ProducerApplication[]> {
+    return await db.select().from(producerApplications).orderBy(desc(producerApplications.createdAt));
   }
 }
 

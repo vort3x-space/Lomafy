@@ -281,6 +281,24 @@ export async function registerRoutes(
     const producers = await storage.getApprovedProducers();
     res.json(producers);
   });
+
+  // Producer Applications
+  app.post('/api/producer-applications', async (req, res) => {
+    try {
+      const { insertProducerApplicationSchema } = await import('@shared/schema');
+      const input = insertProducerApplicationSchema.parse(req.body);
+      const application = await storage.createProducerApplication(input);
+      res.status(201).json(application);
+    } catch (err) {
+      if (err instanceof z.ZodError) res.status(400).json({ message: err.errors[0].message });
+      else res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  app.get('/api/producer-applications', authenticateToken, requireAdmin, async (req, res) => {
+    const applications = await storage.getProducerApplications();
+    res.json(applications);
+  });
   
   await seedDatabase();
 
