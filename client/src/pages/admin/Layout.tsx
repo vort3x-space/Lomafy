@@ -1,6 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { useUser, useLogout } from "@/hooks/use-auth";
-import { Loader2, LayoutDashboard, Package, ShoppingCart, Users, LogOut } from "lucide-react";
+import { useLanguage } from "@/store/language";
+import { Loader2, LayoutDashboard, Package, ShoppingCart, Users, LogOut, ArrowLeft } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -17,6 +18,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
   const { data: user, isLoading } = useUser();
   const [, setLocation] = useLocation();
   const logout = useLogout();
+  const { t } = useLanguage();
 
   if (isLoading) {
     return <div className="flex h-screen items-center justify-center"><Loader2 className="w-8 h-8 animate-spin" /></div>;
@@ -40,21 +42,36 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
     <SidebarProvider style={style}>
       <div className="flex h-screen w-full bg-secondary/20">
         <Sidebar className="border-r border-border bg-white">
-          <div className="p-6">
+          <div className="p-6 border-b border-border">
             <Link href="/" className="font-display font-bold text-2xl tracking-tight text-primary">
-              LOMAFY<span className="text-xs ml-2 text-muted-foreground font-sans bg-secondary px-2 py-1 rounded">ADMIN</span>
+              LOMAFY<span className="text-xs ml-2 text-muted-foreground font-sans bg-secondary px-2 py-1 rounded">
+                {user.role === 'ADMIN' ? 'ADMIN' : 'ÜRETİCİ'}
+              </span>
             </Link>
           </div>
-          <SidebarContent>
+
+          {/* Back to main site */}
+          <div className="px-4 pt-4">
+            <Link
+              href="/"
+              className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors"
+              data-testid="link-back-home"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              {t('admin.back_home')}
+            </Link>
+          </div>
+
+          <SidebarContent className="mt-2">
             <SidebarGroup>
-              <SidebarGroupLabel>Management</SidebarGroupLabel>
+              <SidebarGroupLabel>{t('admin.management')}</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <Link href="/admin">
                         <LayoutDashboard />
-                        <span>Dashboard</span>
+                        <span>{t('admin.dashboard')}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -62,7 +79,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
                     <SidebarMenuButton asChild>
                       <Link href="/admin/products">
                         <Package />
-                        <span>Products</span>
+                        <span>{t('admin.products')}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -70,7 +87,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
                     <SidebarMenuButton asChild>
                       <Link href="/admin/orders">
                         <ShoppingCart />
-                        <span>Orders</span>
+                        <span>{t('admin.orders')}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -79,7 +96,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
                       <SidebarMenuButton asChild>
                         <Link href="/admin/users">
                           <Users />
-                          <span>Users</span>
+                          <span>{t('admin.users')}</span>
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -88,13 +105,19 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
               </SidebarGroupContent>
             </SidebarGroup>
           </SidebarContent>
+
           <div className="mt-auto p-4 border-t border-border">
+            <div className="mb-3 px-2 py-1">
+              <p className="text-xs font-medium text-foreground truncate">{user.name}</p>
+              <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+            </div>
             <button 
               onClick={handleLogout}
-              className="flex items-center w-full px-2 py-2 text-sm text-destructive hover:bg-destructive/10 rounded-md transition-colors font-medium"
+              className="flex items-center w-full px-3 py-2.5 text-sm text-destructive hover:bg-destructive/10 rounded-lg transition-colors font-medium"
+              data-testid="button-admin-logout"
             >
               <LogOut className="w-4 h-4 mr-2" />
-              Log out
+              {t('admin.logout')}
             </button>
           </div>
         </Sidebar>

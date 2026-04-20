@@ -5,11 +5,30 @@ import { Footer } from "@/components/layout/Footer";
 import { useLocation, Link } from "wouter";
 import { Loader2, Package, Calendar, MapPin } from "lucide-react";
 import { format } from "date-fns";
+import { tr } from "date-fns/locale";
+import { useLanguage } from "@/store/language";
+
+const STATUS_LABELS: Record<string, string> = {
+  PENDING: 'Beklemede',
+  PAID: 'Ödendi',
+  SHIPPED: 'Kargoda',
+  DELIVERED: 'Teslim Edildi',
+  CANCELLED: 'İptal Edildi',
+};
+
+const STATUS_COLORS: Record<string, string> = {
+  PENDING: 'bg-amber-100 text-amber-800',
+  PAID: 'bg-blue-100 text-blue-800',
+  SHIPPED: 'bg-indigo-100 text-indigo-800',
+  DELIVERED: 'bg-green-100 text-green-800',
+  CANCELLED: 'bg-red-100 text-red-800',
+};
 
 export default function Profile() {
   const { data: user, isLoading: isLoadingUser } = useUser();
   const { data: orders, isLoading: isLoadingOrders } = useOrders();
   const [, setLocation] = useLocation();
+  const { t, language } = useLanguage();
 
   if (isLoadingUser || isLoadingOrders) {
     return (
@@ -30,43 +49,44 @@ export default function Profile() {
       
       <main className="flex-grow max-w-5xl mx-auto px-4 sm:px-6 py-12 w-full">
         <div className="mb-12">
-          <h1 className="font-display text-4xl font-bold mb-2">My Profile</h1>
-          <p className="text-lg text-muted-foreground">Welcome back, {user.name}</p>
+          <h1 className="font-display text-4xl font-bold mb-2">{t('profile.title')}</h1>
+          <p className="text-lg text-muted-foreground">{t('profile.welcome')}, {user.name}</p>
         </div>
 
         <h2 className="text-2xl font-semibold mb-6 flex items-center">
           <Package className="mr-3 w-6 h-6 text-primary" />
-          Order History
+          {t('profile.order_history')}
         </h2>
 
         {!orders || orders.length === 0 ? (
           <div className="bg-secondary/30 rounded-2xl p-12 text-center border border-border">
-            <p className="text-muted-foreground text-lg mb-4">You haven't placed any orders yet.</p>
+            <p className="text-muted-foreground text-lg mb-4">{t('profile.no_orders')}</p>
             <Link href="/" className="text-primary font-medium hover:underline">
-              Start shopping
+              {t('profile.start_shopping')}
             </Link>
           </div>
         ) : (
           <div className="space-y-6">
             {orders.map((order) => (
-              <div key={order.id} className="bg-white rounded-2xl border border-border p-6 shadow-sm hover:shadow-md transition-shadow">
+              <div key={order.id} data-testid={`order-card-${order.id}`} className="bg-white rounded-2xl border border-border p-6 shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex flex-col md:flex-row justify-between md:items-center border-b border-border pb-4 mb-4 gap-4">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-1">Order #{order.id}</p>
+                    <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-1">
+                      {t('profile.order_num')} #{order.id}
+                    </p>
                     <div className="flex items-center text-sm text-foreground">
                       <Calendar className="w-4 h-4 mr-2 text-muted-foreground" />
-                      {order.createdAt ? format(new Date(order.createdAt), "MMMM d, yyyy") : "Unknown date"}
+                      {order.createdAt
+                        ? format(new Date(order.createdAt), "d MMMM yyyy", { locale: language === 'tr' ? tr : undefined })
+                        : "—"}
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
-                    <span className="font-bold text-lg">${Number(order.totalAmount).toFixed(2)}</span>
-                    <span className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${
-                      order.status === 'PENDING' ? 'bg-amber-100 text-amber-800' :
-                      order.status === 'SHIPPED' ? 'bg-blue-100 text-blue-800' :
-                      order.status === 'DELIVERED' ? 'bg-green-100 text-green-800' :
-                      'bg-gray-100 text-gray-800'
-                    }`}>
-                      {order.status}
+                    <span className="font-bold text-lg">
+                      {Number(order.totalAmount).toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' })}
+                    </span>
+                    <span className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${STATUS_COLORS[order.status] || 'bg-gray-100 text-gray-800'}`}>
+                      {STATUS_LABELS[order.status] || order.status}
                     </span>
                   </div>
                 </div>

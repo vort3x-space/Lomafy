@@ -4,10 +4,12 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Trash2, ArrowRight } from "lucide-react";
+import { useLanguage } from "@/store/language";
 
 export default function Cart() {
   const { items, removeItem, updateQuantity, total } = useCart();
   const [, setLocation] = useLocation();
+  const { t } = useLanguage();
 
   const fallbackImg = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&q=80";
 
@@ -16,19 +18,21 @@ export default function Cart() {
       <Navbar />
       
       <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
-        <h1 className="font-display text-4xl font-bold mb-10">Your Cart</h1>
+        <h1 className="font-display text-4xl font-bold mb-10">{t('cart.title')}</h1>
         
         {items.length === 0 ? (
           <div className="text-center py-20 bg-white rounded-3xl shadow-sm border border-border p-8">
             <div className="w-24 h-24 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6">
               <span className="text-3xl">🛒</span>
             </div>
-            <h2 className="text-2xl font-semibold mb-4">It's a bit empty here</h2>
+            <h2 className="text-2xl font-semibold mb-4">{t('cart.empty_title')}</h2>
             <p className="text-muted-foreground mb-8 max-w-md mx-auto">
-              You haven't added anything to your cart yet. Discover our curated collection of premium goods.
+              {t('cart.empty_desc')}
             </p>
             <Link href="/">
-              <Button size="lg" className="rounded-full px-8">Start Shopping</Button>
+              <Button size="lg" className="rounded-full px-8" data-testid="button-start-shopping">
+                {t('cart.start_shopping')}
+              </Button>
             </Link>
           </div>
         ) : (
@@ -50,12 +54,15 @@ export default function Cart() {
                         <Link href={`/product/${product.id}`} className="font-semibold text-lg hover:text-primary transition-colors">
                           {product.name}
                         </Link>
-                        <p className="text-primary font-medium mt-1">${Number(product.price).toFixed(2)}</p>
+                        <p className="text-primary font-medium mt-1">
+                          {Number(product.price).toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' })}
+                        </p>
                       </div>
                       <button 
                         onClick={() => removeItem(product.id)}
                         className="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-full transition-colors"
-                        title="Remove item"
+                        data-testid={`button-remove-${product.id}`}
+                        title="Ürünü kaldır"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -66,13 +73,15 @@ export default function Cart() {
                         <button 
                           onClick={() => updateQuantity(product.id, quantity - 1)}
                           className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white hover:shadow-sm transition-all"
+                          data-testid={`button-decrease-${product.id}`}
                         >
                           -
                         </button>
-                        <span className="w-8 text-center font-medium text-sm">{quantity}</span>
+                        <span className="w-8 text-center font-medium text-sm" data-testid={`text-quantity-${product.id}`}>{quantity}</span>
                         <button 
                           onClick={() => updateQuantity(product.id, quantity + 1)}
                           className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white hover:shadow-sm transition-all"
+                          data-testid={`button-increase-${product.id}`}
                         >
                           +
                         </button>
@@ -85,30 +94,33 @@ export default function Cart() {
             
             <div className="lg:col-span-1">
               <div className="bg-white rounded-3xl shadow-lg shadow-black/5 border border-border p-8 sticky top-24">
-                <h3 className="font-semibold text-xl mb-6">Order Summary</h3>
+                <h3 className="font-semibold text-xl mb-6">{t('cart.order_summary')}</h3>
                 
                 <div className="space-y-4 text-sm mb-6 border-b border-border pb-6">
                   <div className="flex justify-between text-muted-foreground">
-                    <span>Subtotal</span>
-                    <span className="text-foreground font-medium">${total().toFixed(2)}</span>
+                    <span>{t('cart.subtotal')}</span>
+                    <span className="text-foreground font-medium">
+                      {total().toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' })}
+                    </span>
                   </div>
                   <div className="flex justify-between text-muted-foreground">
-                    <span>Shipping</span>
-                    <span className="text-foreground font-medium">Calculated at checkout</span>
+                    <span>{t('cart.shipping')}</span>
+                    <span className="text-foreground font-medium">{t('cart.shipping_note')}</span>
                   </div>
                 </div>
                 
                 <div className="flex justify-between text-lg font-bold mb-8">
-                  <span>Total</span>
-                  <span>${total().toFixed(2)}</span>
+                  <span>{t('cart.total')}</span>
+                  <span>{total().toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' })}</span>
                 </div>
                 
                 <Button 
                   size="lg" 
                   className="w-full rounded-2xl h-14 text-lg shadow-md group"
                   onClick={() => setLocation('/checkout')}
+                  data-testid="button-checkout"
                 >
-                  Proceed to Checkout
+                  {t('cart.checkout')}
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
