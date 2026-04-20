@@ -34,52 +34,32 @@ export default function Home() {
       <main className="flex-grow">
         {/* Hero Section */}
         <section className="relative w-full overflow-hidden">
-          {/* Mobile: fixed height 480px; tablet+: 52% aspect ratio */}
-          <div className="relative h-[480px] sm:h-[540px] md:h-auto md:pb-[52%]">
+          <div className="relative w-full" style={{ paddingTop: '52%' }}>
             <img 
               src={heroImagePath}
               alt="LOMAFY - Üreticinin Gücü Dünyaya Açılıyor" 
               className="absolute inset-0 w-full h-full object-cover object-top"
             />
-
-            {/* Mobile buttons — pinned near bottom of image */}
-            <div className="absolute bottom-8 w-full flex md:hidden flex-col sm:flex-row justify-center items-center gap-3 px-4">
-              <Button
-                size="lg"
-                data-testid="button-alisverise-basla"
-                className="rounded-full px-8 h-12 text-base font-bold bg-[#c97632] hover:bg-[#b8692a] text-white shadow-xl border-0 w-full sm:w-auto max-w-[220px]"
-                onClick={scrollToProducts}
-              >
-                Alışverişe Başla
-              </Button>
-              <Button
-                size="lg"
-                data-testid="button-uretici-ol"
-                onClick={() => setLocation('/producer-apply')}
-                className="rounded-full px-8 h-12 text-base font-bold bg-white text-[#c97632] border-2 border-white hover:bg-white/90 shadow-xl w-full sm:w-auto max-w-[220px]"
-              >
-                Üretici Ol
-              </Button>
-            </div>
-
-            {/* Desktop buttons — overlaid at 54% below the image text */}
-            <div className="absolute w-full hidden md:flex flex-row justify-center items-center gap-3 px-4" style={{ top: '54%' }}>
-              <Button
-                size="lg"
-                data-testid="button-alisverise-basla-desktop"
-                className="rounded-full px-8 h-12 text-base font-bold bg-[#c97632] hover:bg-[#b8692a] text-white shadow-xl border-0 min-w-[180px]"
-                onClick={scrollToProducts}
-              >
-                Alışverişe Başla
-              </Button>
-              <Button
-                size="lg"
-                data-testid="button-uretici-ol-desktop"
-                onClick={() => setLocation('/producer-apply')}
-                className="rounded-full px-8 h-12 text-base font-bold bg-white text-[#c97632] border-2 border-white hover:bg-white/90 shadow-xl min-w-[180px]"
-              >
-                Üretici Ol
-              </Button>
+            {/* Button overlay — positioned below subtitle text */}
+            <div className="absolute w-full" style={{ top: '54%' }}>
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-3 px-4">
+                <Button
+                  size="lg"
+                  data-testid="button-alisverise-basla"
+                  className="rounded-full px-8 h-12 text-base font-bold bg-[#c97632] hover:bg-[#b8692a] text-white shadow-xl border-0 min-w-[180px]"
+                  onClick={scrollToProducts}
+                >
+                  Alışverişe Başla
+                </Button>
+                <Button
+                  size="lg"
+                  data-testid="button-uretici-ol"
+                  onClick={() => setLocation('/producer-apply')}
+                  className="rounded-full px-8 h-12 text-base font-bold bg-white text-[#c97632] border-2 border-white hover:bg-white/90 shadow-xl min-w-[180px]"
+                >
+                  Üretici Ol
+                </Button>
+              </div>
             </div>
           </div>
         </section>
